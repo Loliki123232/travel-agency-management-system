@@ -354,3 +354,48 @@ ServiceUnavailable
 7. создаёт поездку и сохраняет её через ITripRepository в TourApp.Data.
 
 ---
+
+# 6. Предполагаемая структура решения
+
+```text
+TourApp/
+│
+├── src/
+│   │
+│   ├── TourApp.Domain/          ← сущности (Model)
+│   ├── TourApp.Contracts/       ← DTO, запросы, результаты, маппинг
+│   ├── TourApp.Data/            ← EF Core, DbContext, репозитории
+│   ├── TourApp.Services/        ← бизнес-логика
+│   ├── TourApp.Infrastructure/  ← внешние API (Nominatim, OSRM)
+│   └── TourApp.Wpf/             ← UI + ViewModels
+│
+├── tests/
+│   │
+│   ├── TourApp.UnitTests/
+│   └── TourApp.IntegrationTests/
+│
+├── docs/
+│   │
+│   └── project-artifacts/
+│       │
+│       ├── project-scope.md
+│       ├── modules.md
+│       ├── architecture.md
+│       ├── dependencies.md
+│       ├── contracts.md
+│       ├── testing.md
+│       ├── version-control.md
+│       │
+│       └── decisions/
+│           ├── ADR-001-layered-architecture.md
+│           ├── ADR-002-mvvm.md
+│           ├── ADR-003-ef-core.md
+│           └── ADR-004-dto-layer.md
+│
+├── .gitignore
+├── .editorconfig
+├── README.md
+└── TourApp.sln
+```
+
+---
