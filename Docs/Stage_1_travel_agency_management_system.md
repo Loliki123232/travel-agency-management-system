@@ -388,23 +388,24 @@ TourApp/
 
 Внутренние зависимости определяют взаимодействие проектов внутри решения.
 
-```text
-Wpf
- ↓
-Services
- ↓
-Data
- ↓
-Domain
+```mermaid
+flowchart TD
+    Wpf["TourApp.Wpf"]
+    Services["TourApp.Services"]
+    Infra["TourApp.Infrastructure"]
+    Data["TourApp.Data"]
+    Domain["TourApp.Domain"]
+    Contracts["TourApp.Contracts"]
 
-Services
- ↓
-Infrastructure
- ↓
-Domain
+    Wpf --> Services
+    Services --> Data
+    Services --> Infra
+    Data --> Domain
+    Infra --> Domain
 
-Contracts     ← используется Wpf, Services, Infrastructure
-                (ни от кого не зависит)
+    Wpf -. "используется" .-> Contracts
+    Services -. "используется" .-> Contracts
+    Infra -. "используется" .-> Contracts
 ```
 
 При этом бизнес-модули не должны напрямую обращаться к внутренним классам друг друга.
@@ -413,12 +414,14 @@ Contracts     ← используется Wpf, Services, Infrastructure
 
 Например, RentalModule получает данные об отеле для поездки:
 
-```text
-RentalModule
-      ↓
-IHotelRepository
-      ↓
-CatalogModule (реализация в Data)
+```mermaid
+flowchart TD
+    Rental["RentalModule"]
+    IHotelRepo["IHotelRepository<br/>(интерфейс)"]
+    Catalog["CatalogModule<br/>(реализация в TourApp.Data)"]
+
+    Rental --> IHotelRepo
+    IHotelRepo --> Catalog
 ```
 
 Это позволяет уменьшить связанность модулей.
