@@ -456,3 +456,250 @@ flowchart TD
 Конкретные версии библиотек фиксируются в файлах `.csproj`.
 
 ---
+
+# 9. Основные DTO проекта
+
+Для передачи данных между слоями и модулями создаются DTO.
+
+## 9.1. ClientDto
+
+```csharp
+public record ClientDto(
+    int Id,
+    string Email,
+    string FirstName,
+    string LastName,
+    string MiddleName,
+    string Phone,
+    bool IsAdmin
+);
+```
+
+---
+
+## 9.2. LoginRequest
+
+```csharp
+public record LoginRequest(
+    string Email,
+    string Password
+);
+```
+
+---
+
+## 9.3. RegisterRequest
+
+```csharp
+public record RegisterRequest(
+    string Email,
+    string Password
+);
+```
+
+---
+
+## 9.4. LoginResult
+
+```csharp
+public record LoginResult(
+    bool Success,
+    ClientDto? Client,
+    string? ErrorCode
+);
+```
+
+---
+
+## 9.5. RegisterResult
+
+```csharp
+public record RegisterResult(
+    bool Success,
+    int? ClientId,
+    string? ErrorCode
+);
+```
+
+---
+
+## 9.6. FlightDto
+
+```csharp
+public record FlightDto(
+    Guid Id,
+    string TransportType,
+    string FromCity,
+    string ToCity,
+    decimal Price,
+    DateTime DepartureTime
+);
+```
+
+---
+
+## 9.7. HotelDto
+
+```csharp
+public record HotelDto(
+    Guid Id,
+    string Name,
+    int Stars,
+    decimal BasePricePerNight,
+    IReadOnlyList<HotelServiceDto> Services
+);
+```
+
+---
+
+## 9.8. HotelServiceDto
+
+```csharp
+public record HotelServiceDto(
+    Guid Id,
+    string Name,
+    string Category,
+    decimal Price
+);
+```
+
+---
+
+## 9.9. PaymentMethodDto
+
+```csharp
+public record PaymentMethodDto(
+    int Id,
+    string CardNumberMasked,
+    string ExpiresAt
+);
+```
+
+---
+
+## 9.10. CreateTripRequest
+
+```csharp
+public record CreateTripRequest(
+    int ClientId,
+    string TransportType,
+    string FromCity,
+    string ToCity,
+    DateTime DepartureDate,
+    int Nights,
+    Guid HotelId,
+    IReadOnlyList<Guid> SelectedServiceIds
+);
+```
+
+---
+
+## 9.11. TripDto
+
+```csharp
+public record TripDto(
+    Guid Id,
+    int ClientId,
+    string TransportType,
+    string FromCity,
+    string ToCity,
+    decimal TransportPrice,
+    decimal HotelPrice,
+    decimal TotalPrice,
+    DateTime DepartureDate,
+    int Nights,
+    string Status
+);
+```
+
+---
+
+## 9.12. CalculateDistanceRequest
+
+```csharp
+public record CalculateDistanceRequest(
+    string FromCity,
+    string ToCity
+);
+```
+
+---
+
+## 9.13. CalculateDistanceResult
+
+```csharp
+public record CalculateDistanceResult(
+    bool Success,
+    double? DistanceKm,
+    string? ErrorCode
+);
+```
+
+---
+
+## 9.14. OperationResult
+
+```csharp
+public record OperationResult(
+    bool Success,
+    string? ErrorCode
+);
+```
+
+---
+
+## 9.15. UpdateClientRequest
+
+```csharp
+public record UpdateClientRequest(
+    int Id,
+    string FirstName,
+    string LastName,
+    string MiddleName,
+    string Phone
+);
+```
+
+---
+
+## 9.16. UpdateHotelRequest
+
+```csharp
+public record UpdateHotelRequest(
+    Guid Id,
+    string Name,
+    int Stars,
+    decimal BasePricePerNight
+);
+```
+
+---
+
+# 10. Описание API
+
+Клиентское приложение (WPF) не взаимодействует с системой через HTTP API. Серверная часть в проекте отсутствует: приложение настольное, все вызовы выполняются внутри процесса через интерфейсы, зарегистрированные в DI-контейнере.
+
+Под «API» в проекте понимаются публичные интерфейсы слоёв `TourApp.Services` и `TourApp.Data`, а также внешние HTTP API (Nominatim и OSRM), которые вызывает `TourApp.Infrastructure`.
+
+Предполагаются следующие основные точки взаимодействия.
+
+| Метод | Интерфейс | Назначение |
+|---|---|---|
+| `LoginAsync` / `RegisterAsync` | `IAuthService` | Вход и регистрация клиента |
+| `GetDistanceKmAsync` | `IDistanceService` | Расстояние между городами |
+| `Calculate` | `ITransportPricingService` | Стоимость транспорта |
+| `CalculateTotal` | `IHotelPricingService` | Стоимость отеля с услугами |
+| `CreateAsync` / `CancelAsync` | `ITripService` | Создание и отмена поездки |
+| `GetByEmailAsync` | `IClientRepository` | Получение клиента по email |
+| `GetWithServicesAsync` | `IHotelRepository` | Отели с услугами |
+| `FindAsync` | `IFlightRepository` | Поиск рейсов |
+| `AddAsync` | `ITripRepository` | Сохранение поездки |
+
+Внешние HTTP API, используемые проектом:
+
+| Метод | Адрес | Назначение |
+|---|---|---|
+| `GET` | `https://nominatim.openstreetmap.org/search?q={city}&format=json` | Геокодинг города |
+| `GET` | `https://router.project-osrm.org/route/v1/driving/{lon1},{lat1};{lon2},{lat2}?overview=false` | Расчёт маршрута |
+
+---
