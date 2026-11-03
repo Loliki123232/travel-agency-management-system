@@ -1511,3 +1511,133 @@ Wpf
 
 ---
 
+# 20. Изменения в репозитории
+
+В рамках этапа были созданы следующие документы:
+
+```text
+docs/project-artifacts/project-scope.md
+docs/project-artifacts/modules.md
+docs/project-artifacts/architecture.md
+docs/project-artifacts/dependencies.md
+docs/project-artifacts/contracts.md
+docs/project-artifacts/testing.md
+docs/project-artifacts/version-control.md
+docs/project-artifacts/decisions/ADR-001-layered-architecture.md
+docs/project-artifacts/decisions/ADR-002-mvvm.md
+docs/project-artifacts/decisions/ADR-003-ef-core.md
+docs/project-artifacts/decisions/ADR-004-dto-layer.md
+docs/project-artifacts/decisions/ADR-005-postgresql.md
+README.md
+```
+
+Также были подготовлены модели контрактов в:
+
+```text
+src/TourApp.Contracts/
+src/TourApp.Domain/
+```
+
+---
+
+# 21. Пример истории Git
+
+В ходе выполнения этапа изменения разделялись на логические коммиты.
+
+```text
+Initial commit
+Create folder project-artifacts
+Section 1 — create report file
+docs: add section 2 — project purpose and scope
+docs: add section 3 — project artifacts registry to Stage 1, add project-scope.md to project-artifacts, fix folder name case to Docs
+docs: add section 4 — system modules list, add modules.md to project-artifacts
+docs: add section 5 — architecture diagram to Stage 1, add architecture.md to project-artifacts
+Update architecture.md
+docs: add section 6 — proposed solution structure
+docs: add sections 7-8 — internal and external dependencies to Stage 1, add dependencies.md to project-artifacts
+docs: convert architecture diagram from ASCII to Mermaid
+Update architecture.md
+Update Stage 1 travel agency management system.md
+Update dependencies.md
+docs: add sections 9 and 10 — main DTOs and API description
+docs: add sections 11-14 — interaction protocols 1-4
+docs: add contracts.md to project-artifacts
+docs: add section 15 — testing strategy and add file testing.md
+```
+
+После завершения этапа выполняется:
+
+```bash
+git status
+```
+
+Репозиторий не должен содержать незакоммиченных изменений.
+
+---
+
+# 22. Что было получено в результате этапа
+
+В результате выполнения этапа:
+
+- определено назначение системы автоматизации турагентства;
+- установлены границы проекта;
+- выделены четыре основных функциональных модуля;
+- сформирована слоистая архитектурная схема;
+- описаны внутренние и внешние зависимости;
+- определены основные DTO;
+- описаны сервисы и их интерфейсы;
+- разработан протокол расчёта расстояния;
+- разработан протокол расчёта стоимости транспорта;
+- разработан протокол создания поездки;
+- разработан протокол аутентификации клиента;
+- определена тестовая стратегия;
+- определены правила ведения Git-репозитория;
+- зафиксированы три архитектурных решений.
+
+---
+
+# 23. Оставшиеся риски
+
+На данном этапе выявлены следующие риски.
+
+## Риск 1. Ограничения внешних API
+
+Nominatim имеет лимит 1 запрос в секунду. Необходимо кэширование и троттлинг.
+
+## Риск 2. Недоступность внешнего сервиса
+
+OSRM может быть недоступен. Необходимы таймауты и информативные сообщения.
+
+## Риск 3. Ошибка сохранения поездки
+
+Необходимо использовать транзакции или откат.
+
+## Риск 4. Изменение контрактов DTO
+
+При изменении DTO необходимо контролировать совместимость слоёв.
+
+## Риск 5. Хранение данных банковских карт
+
+Даже в демо-версии хранение полного номера карты и CVV недопустимо. Хранится только маскированный номер.
+
+## Риск 6. Ограничение BCrypt
+
+При высокой нагрузке BCrypt работает медленно. Для учебного проекта не критично, для продакшна — рассмотреть Argon2.
+
+## Риск 7. Регистр в PostgreSQL
+
+При использовании имён в camelCase без `UseSnakeCaseNamingConvention()` возможны баги с регистром. Настроить сразу.
+
+---
+
+# 24. Вывод
+
+В рамках первого этапа курсового проектирования была сформирована проектная основа системы автоматизации турагентства.
+
+Определены назначение и границы системы, состав функциональных модулей, их ответственность и зависимости. Разработана слоистая архитектурная схема приложения, определены основные DTO и интерфейсы сервисов.
+
+Подробно описаны четыре протокола взаимодействия: расчёт расстояния между городами, расчёт стоимости транспорта, создание поездки и аутентификация клиента.
+
+Также подготовлены инструкция сборки и запуска, тестовая стратегия, правила ведения Git-репозитория и журнал значимых технических решений.
+
+Созданная документация позволяет перейти к следующим этапам разработки и использовать зафиксированные контракты.
