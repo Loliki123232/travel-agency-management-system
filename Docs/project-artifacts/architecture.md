@@ -2,56 +2,40 @@
 
 Для проекта выбрана модульная архитектура.
 
-```text
-                 ┌──────────────────────────────────┐
-                 │           TourApp.Wpf            │
-                 │       Views + ViewModels         │
-                 └────────────────┬─────────────────┘
-                                  │
-                                  │ DI + DTO
-                                  ▼
-                 ┌──────────────────────────────────┐
-                 │        TourApp.Services          │
-                 │  ┌────────────┐ ┌──────────────┐ │
-                 │  │  Customer  │ │   Catalog    │ │
-                 │  │  Module    │ │   Module     │ │
-                 │  └─────┬──────┘ └──────┬───────┘ │
-                 │        │               │         │
-                 │        ▼               │         │
-                 │  ┌────────────┐        │         │
-                 │  │   Rental   │────────┘         │
-                 │  │   Module   │                  │
-                 │  └─────┬──────┘                  │
-                 └────────┼─────────────────────────┘
-                          │
-                          │ вызывает
-                          ▼
-                 ┌──────────────────┐
-                 │ TourApp.         │
-                 │ Infrastructure   │
-                 │                  │
-                 │ DeliveryModule   │──► Nominatim
-                 │ DistanceService  │──► OSRM
-                 └──────────────────┘
-                          │
-                          │ (Services → Data)
-                          ▼
-                 ┌──────────────────┐
-                 │   TourApp.Data   │
-                 │  Repositories    │
-                 │  TourDbContext   │
-                 └────────┬─────────┘
-                          │
-                          ▼
-                 ┌──────────────────┐
-                 │    PostgreSQL    │
-                 └──────────────────┘
+```mermaid
+flowchart TD
+    WPF["TourApp.Wpf<br/>Views + ViewModels"]
+    Services["TourApp.Services"]
+    Customer["CustomerModule"]
+    Catalog["CatalogModule"]
+    Rental["RentalModule"]
+    Infra["TourApp.Infrastructure<br/>DeliveryModule / DistanceService"]
+    Nominatim["Nominatim API"]
+    OSRM["OSRM API"]
+    Data["TourApp.Data<br/>Repositories / TourDbContext"]
+    PG[("PostgreSQL")]
+    Domain["TourApp.Domain<br/>(сущности, enum'ы)"]
+    Contracts["TourApp.Contracts<br/>(DTO, Requests)"]
 
-   ┌────────────────────────┐   ┌────────────────────────┐
-   │    TourApp.Domain      │   │  TourApp.Contracts     │
-   │  (сущности, enum'ы)    │   │  (DTO, Requests)       │
-   └────────────────────────┘   └────────────────────────┘
-       используется всеми       используется WPF и Services
+    WPF -- "DI + DTO" --> Services
+    Services --- Customer
+    Services --- Catalog
+    Services --- Rental
+    Customer --> Rental
+    Catalog --> Rental
+    Rental -- "вызывает" --> Infra
+    Infra --> Nominatim
+    Infra --> OSRM
+    Infra -- "Services → Data" --> Data
+    Data --> PG
+
+    Domain -. "используется всеми" .- WPF
+    Domain -. "используется всеми" .- Services
+    Domain -. "используется всеми" .- Data
+    Domain -. "используется всеми" .- Infra
+
+    Contracts -. "используется WPF" .- WPF
+    Contracts -. "используется Services" .- Services
 ```
 
 Центральным модулем бизнес-процесса является `RentalModule`.
