@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourApp.Domain", "TourApp.Domain.csproj", "{95459FC0-27F9-4ABA-9CA9-344CF7E80876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourApp.Contracts", "..\TourApp.Contracts\TourApp.Contracts.csproj", "{58D11948-60DD-43B8-8051-02FF24D3BFE9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95459FC0-27F9-4ABA-9CA9-344CF7E80876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95459FC0-27F9-4ABA-9CA9-344CF7E80876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95459FC0-27F9-4ABA-9CA9-344CF7E80876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95459FC0-27F9-4ABA-9CA9-344CF7E80876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58D11948-60DD-43B8-8051-02FF24D3BFE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D11948-60DD-43B8-8051-02FF24D3BFE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D11948-60DD-43B8-8051-02FF24D3BFE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D11948-60DD-43B8-8051-02FF24D3BFE9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9849A0CA-43ED-4C4A-83F4-317CEB576BA2}
+	EndGlobalSection
+EndGlobal
