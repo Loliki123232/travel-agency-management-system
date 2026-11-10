@@ -21,52 +21,52 @@
 
 ## 3.1 добавить `.gitignore` для .NET:
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 ---
 
 ## 3.2 убедиться, что `bin`, `obj`, локальные настройки IDE, временные файлы и секреты не отслеживаются:
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 ---
 
 ## 3.3 добавить `.editorconfig`:
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 ---
 
 ## 3.4 создать рабочую ветку:
 
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 ---
 
 ## 3.5 выполнить не менее пяти осмысленных коммитов:
 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 ---
 
 ## 3.6 создать учебный тег контрольного состояния:
 
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 ---
 
 ## 3.7 описать правила ветвления, коммитов и слияния в `docs/version-control.md`:
 
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 ---
 
 ## 3.8 получить граф истории командой:
 
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 ---
 
 ## 7. Контрольные вопросы
